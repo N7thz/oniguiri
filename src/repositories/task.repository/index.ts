@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma"
-import { $Enums } from "@prisma/client"
+import { Unit } from "@prisma/client"
 
 interface CreateTaskProps {
     name: string
     quantity: number
     wasBought: boolean
     obs: string | null
-    unit: $Enums.Unit
+    unit: Unit
     userId: string
 }
 
@@ -16,7 +16,7 @@ export function TaskRepository() {
 
         const tasks = await prisma.task.findMany({
             include: {
-                User: true
+                user: true
             }
         })
 

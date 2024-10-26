@@ -1,21 +1,16 @@
 import type { Metadata } from "next"
-import {
-    CardHeader, CardTitle, CardContent, CardDescription
-} from "@/components/ui/card"
+import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { PagePrivete } from "@/components/page-privete"
 import { Card } from "@/components/card-border-animated"
-import { NotFoundTasks } from "@/components/tasks/not-found-tasks"
 import { DialogCreateTask } from "@/components/dialog-create-task"
 import { Toaster } from "@/components/ui/sonner"
+import { ScrollItemsTasks } from "@/components/scroll-items-tasks"
 
 export const metadata: Metadata = {
     title: "Oniguiri list | Home"
 }
 
 export default function Home() {
-
-    const items: string[] = []
-
     return (
         <>
             <PagePrivete
@@ -35,15 +30,7 @@ export default function Home() {
                         </div>
                         <DialogCreateTask />
                     </CardHeader>
-                    <CardContent className="mt-24">
-                        <ul className="size-full flex flex-col items-center gap-3">
-                            {
-                                items.length === 0
-                                    ? <NotFoundTasks />
-                                    : items.map(item => <li key={item}>{item}</li>)
-                            }
-                        </ul>
-                    </CardContent>
+                    <ScrollItemsTasks />
                 </Card>
             </PagePrivete>
             <Toaster />

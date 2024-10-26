@@ -4,7 +4,8 @@ export const FormCreateTaskSchema = z.object({
     name: z
         .string()
         .min(2, { message: "O nome do item é obrigatório." })
-        .max(255, { message: "O nome é muito longo." }),
+        .max(255, { message: "O nome é muito longo." })
+        .toLowerCase(),
     quantity: z
         .string()
         .min(1, { message: "A quantidade de itens é obrigatória." })
@@ -15,5 +16,6 @@ export const FormCreateTaskSchema = z.object({
     obs: z
         .string()
         .max(255, { message: "A obs é muito longa." })
+        .toLowerCase()
         .optional()
 })

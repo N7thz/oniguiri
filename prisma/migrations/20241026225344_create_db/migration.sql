@@ -15,7 +15,7 @@ CREATE TABLE "Task" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "wasBought" BOOLEAN NOT NULL,
+    "was-bought" BOOLEAN NOT NULL,
     "obs" TEXT,
     "created-at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated-at" TIMESTAMP(3) NOT NULL,

@@ -8,7 +8,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { $Enums } from "@prisma/client"
+import { Unit} from "@prisma/client"
 import { ComponentProps } from "react"
 
 interface SelectUnitProps extends ComponentProps<"select"> {
@@ -20,8 +20,8 @@ export const SelectUnit = ({
     className, value, onValueChange
 }: SelectUnitProps) => {
 
-    const units: $Enums.Unit[] = ["KG", "MG", "UN", "DZ", "LT"]
-    const defaultValue: $Enums.Unit = "UN"
+    const units: Unit[] = ["KG", "MG", "UN", "DZ", "LT"]
+    const defaultValue: Unit = "UN"
 
     return (
         <Select
@@ -34,7 +34,9 @@ export const SelectUnit = ({
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectLabel>
+                        Unidades
+                    </SelectLabel>
                     {
                         units.map(unit =>
                             <SelectItem

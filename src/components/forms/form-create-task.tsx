@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react"
 import { toast } from "@/lib/toast"
 import { SelectUnit } from "@/components/select-unit"
 import { useEffect, useState } from "react"
-import { $Enums as Enums } from "@prisma/client"
+import { Unit } from "@prisma/client"
 
 interface FormCreateTaskProps {
     setIsOpen: (open: boolean) => void
@@ -27,7 +27,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
     const http = useHttp()
 
     useEffect(() => {
-        setValue("unit", selectValue as Enums.Unit)
+        setValue("unit", selectValue as Unit)
     }, [selectValue])
 
     const {

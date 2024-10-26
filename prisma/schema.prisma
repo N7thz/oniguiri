@@ -19,13 +19,13 @@ model Task {
   id        String   @id @default(uuid())
   name      String   @unique
   quantity  Int
-  wasBought Boolean
+  wasBought Boolean  @map("was-bought")
   obs       String?
   createdAt DateTime @default(now()) @map("created-at")
   updatedAt DateTime @updatedAt @map("updated-at")
   userId    String
   unit      Unit
-  User      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum Unit {
