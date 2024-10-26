@@ -3,16 +3,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model ItemList {
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+  tasks Task[]
+}
+
+model Task {
   id        String   @id @default(uuid())
   name      String   @unique
   quantity  Int
+  wasBought Boolean
+  obs       String?
   createdAt DateTime @default(now()) @map("created-at")
   updatedAt DateTime @updatedAt @map("updated-at")
-
-  @@map("items-list")
+  userId    String
+  User      User?    @relation(fields: [userId], references: [id])
 }

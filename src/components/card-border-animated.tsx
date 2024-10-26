@@ -12,11 +12,14 @@ export const Card = ({
 }: CardProps) => {
     return (
         <ShineBorder
-            className="w-96 flex items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl"
+            className={cn(
+                "w-96 flex items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl",
+                className
+            )}
             color={colors}
         >
             <CardPrimitive
-                className={cn("border-none size-full", className)}
+                className="border-none size-full"
                 {...props}
             >
                 {children}
