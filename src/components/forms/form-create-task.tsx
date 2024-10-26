@@ -11,6 +11,9 @@ import { cn } from "@/lib/utils"
 import { useHttp } from "@/http"
 import { useSession } from "next-auth/react"
 import { toast } from "@/lib/toast"
+import { SelectUnit } from "@/components/select-unit"
+import { useEffect, useState } from "react"
+import { $Enums as Enums } from "@prisma/client"
 
 interface FormCreateTaskProps {
     setIsOpen: (open: boolean) => void
@@ -18,32 +21,40 @@ interface FormCreateTaskProps {
 
 export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
+    const [selectValue, setSelectValue] = useState<string>("UN")
+
     const { data } = useSession()
     const http = useHttp()
+
+    useEffect(() => {
+        setValue("unit", selectValue as Enums.Unit)
+    }, [selectValue])
 
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        setValue,
+        formState: { errors },
     } = useForm<FormCreateTaskType>({
-        resolver: zodResolver(FormCreateTaskSchema)
+        resolver: zodResolver(FormCreateTaskSchema),
     })
 
-    function createTask({ name, quantity, obs }: FormCreateTaskType) {
+    function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
 
-        if (!data || !data.user || !data.user.email) return
+        if (!data || !data.user || !data.user.email || !data.user.image) return
 
         const email = data.user.email
+        const imageUrl = data.user.image
+
+        console.log(name, quantity, obs, unit)
 
         http
-            .createTask({ email, name, quantity, obs })
+            .createTask({ email, name, quantity, obs, unit, imageUrl })
             .then(res => {
                 console.log(res)
 
-                setIsOpen(false)
-
                 toast({
-                    title: "Tópico criado com sucesso.",
+                    title: "Item criado com sucesso.",
                     variant: "sucess"
                 })
             })
@@ -51,10 +62,11 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                 console.log(err)
 
                 toast({
-                    title: "Erro ao criar tópico.",
+                    title: "Erro ao criar item.",
                     variant: "error"
                 })
             })
+            .finally(() => setIsOpen(false))
     }
 
     return (
@@ -97,6 +109,16 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                     </span>
                 }
             </Label>
+            <SelectUnit
+                value={selectValue}
+                onValueChange={setSelectValue}
+            />
+            {
+                errors.unit &&
+                <span className="text-destructive w-full pl-2 text-base">
+                    {errors.unit.message}
+                </span>
+            }
             <Label>
                 Observações:
                 <Textarea

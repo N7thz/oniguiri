@@ -10,6 +10,8 @@ export const FormCreateTaskSchema = z.object({
         .min(1, { message: "A quantidade de itens é obrigatória." })
         .max(4, { message: "Quantidade pode ser no maximo 9999." })
         .transform(quantity => Number(quantity)),
+    unit: z
+        .enum(["KG", "MG", "UN", "DZ", "LT"]),
     obs: z
         .string()
         .max(255, { message: "A obs é muito longa." })

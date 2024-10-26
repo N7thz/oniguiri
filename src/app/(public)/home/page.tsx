@@ -4,7 +4,7 @@ import {
 } from "@/components/ui/card"
 import { PagePrivete } from "@/components/page-privete"
 import { Card } from "@/components/card-border-animated"
-import { NotFoundTasks } from "@/components/taks/not-found-tasks"
+import { NotFoundTasks } from "@/components/tasks/not-found-tasks"
 import { DialogCreateTask } from "@/components/dialog-create-task"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
 
-    const items: string[] = ["teste dos guri", "abacaxi"]
+    const items: string[] = []
 
     return (
         <>
@@ -35,7 +35,7 @@ export default function Home() {
                         </div>
                         <DialogCreateTask />
                     </CardHeader>
-                    <CardContent className="mt-24 bg-red-500">
+                    <CardContent className="mt-24">
                         <ul className="size-full flex flex-col items-center gap-3">
                             {
                                 items.length === 0
