@@ -25,6 +25,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
     const { data } = useSession()
     const http = useHttp()
+    const refresh = () => window.location.reload()
 
     useEffect(() => {
         setValue("unit", selectValue as Unit)
@@ -46,8 +47,6 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
         const email = data.user.email
         const imageUrl = data.user.image
 
-        console.log(name, quantity, obs, unit)
-
         http
             .createTask({ email, name, quantity, obs, unit, imageUrl })
             .then(res => {
@@ -57,6 +56,8 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                     title: "Item criado com sucesso.",
                     variant: "sucess"
                 })
+
+                setTimeout(refresh, 2000)
             })
             .catch(err => {
                 console.log(err)

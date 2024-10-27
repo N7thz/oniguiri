@@ -1,4 +1,3 @@
-import { Task, User } from "@prisma/client"
 import {
     Card, CardHeader, CardTitle, CardDescription, CardContent,
     CardFooter
@@ -7,68 +6,86 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Item } from "@/@types"
 import { Ellipsis } from "lucide-react"
-import { Button } from "../ui/button"
+import { cn } from "@/lib/utils"
+import { DropMenuItemOptions } from "@/components/drop-menu-item-options"
+import { useState } from "react"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 export const TaskItem = ({ item }: { item: Item }) => {
+
+    const [wasBought, setWasBought] = useState(false)
 
     const {
         name,
         obs,
         unit,
         quantity,
-        wasBought,
         createdAt,
-        user: {
-            imageUrl
-        }
+        user: { imageUrl }
     } = item
 
-    console.log(imageUrl)
+    const date = format(createdAt, "PPP", { locale: ptBR })
 
     return (
         <li className="w-full">
-            <Card className="size-full">
+            <Card className={cn(
+                "size-full", wasBought && "border-foreground bg-muted"
+            )}>
                 <CardHeader>
-                    <CardTitle
-                        className="w-full flex justify-between items-center text-3xl"
-                    >
+                    <CardTitle className={cn(
+                        "w-full flex justify-between items-center text-3xl",
+                        wasBought && "line-through"
+                    )}>
                         <span className="capitalize">
                             {name}
                         </span>
                         <Checkbox
                             checked={wasBought}
+                            onCheckedChange={
+                                () => setWasBought(wasBought => !wasBought)
+                            }
                             className="size-8"
                         />
                     </CardTitle>
                     <CardDescription>
-                        {createdAt.toString()}
+                        {date}
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="flex justify-between">
-                    <div className="flex gap-2">
-                        <span>
-                            {quantity}
-                        </span>
-                        <span>
-                            {unit}
-                        </span>
+                <CardContent>
+                    <div className="flex justify-between items-center">
+                        <div className="flex gap-2 text-lg">
+                            <span>
+                                {quantity}
+                            </span>
+                            <span>
+                                {unit}
+                            </span>
+                        </div>
+                        <div
+                            className="flex flex-col items-center gap-2 text-muted-foreground"
+                        >
+                            Adicionado por:
+                            <Avatar>
+                                <AvatarImage src={imageUrl} />
+                                <AvatarFallback>
+                                    <Ellipsis />
+                                </AvatarFallback>
+                            </Avatar>
+                        </div>
                     </div>
-                    <div
-                        className="flex flex-col text-muted-foreground items-center gap-2"
-                    >
-                        Adicionado por:
-                        <Avatar>
-                            <AvatarImage src={imageUrl} />
-                            <AvatarFallback>
-                                <Ellipsis />
-                            </AvatarFallback>
-                        </Avatar>
+                    <div>
+                        Obs:
+                        <span className={cn(
+                            "ml-2",
+                            !obs && "text-muted-foreground"
+                        )}>
+                            {obs ? obs : "Sem observação."}
+                        </span>
                     </div>
                 </CardContent>
                 <CardFooter className="justify-end">
-                    <Button variant={"outline"}>
-                        <Ellipsis />
-                    </Button>
+                    <DropMenuItemOptions wasBought={wasBought} />
                 </CardFooter>
             </Card>
         </li>
