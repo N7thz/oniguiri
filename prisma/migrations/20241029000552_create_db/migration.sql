@@ -2,16 +2,17 @@
 CREATE TYPE "Unit" AS ENUM ('KG', 'MG', 'UN', 'DZ', 'LT');
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "image-url" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Task" (
+CREATE TABLE "tasks" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
@@ -22,14 +23,14 @@ CREATE TABLE "Task" (
     "userId" TEXT NOT NULL,
     "unit" "Unit" NOT NULL,
 
-    CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "tasks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Task_name_key" ON "Task"("name");
+CREATE UNIQUE INDEX "tasks_name_key" ON "tasks"("name");
 
 -- AddForeignKey
-ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tasks" ADD CONSTRAINT "tasks_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

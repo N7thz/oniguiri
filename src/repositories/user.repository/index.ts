@@ -2,7 +2,8 @@ import { prisma } from "@/lib/prisma"
 
 interface CreateUserRequest {
     email: string
-    imageUrl: string
+    image: string
+    name: string
 }
 
 export function UserRepository() {

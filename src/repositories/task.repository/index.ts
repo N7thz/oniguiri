@@ -17,6 +17,12 @@ export function TaskRepository() {
         const tasks = await prisma.task.findMany({
             include: {
                 user: true
+            },
+            where: {
+                wasBought: false
+            },
+            orderBy: {
+                createdAt: "asc"
             }
         })
 

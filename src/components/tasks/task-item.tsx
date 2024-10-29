@@ -14,39 +14,25 @@ import { ptBR } from "date-fns/locale"
 
 export const TaskItem = ({ item }: { item: Item }) => {
 
-    const [wasBought, setWasBought] = useState(false)
-
     const {
         name,
         obs,
         unit,
         quantity,
         createdAt,
-        user: { imageUrl }
+        user: { image }
     } = item
 
-    const date = format(createdAt, "PPP", { locale: ptBR })
+    const date = format(createdAt, "PPp", { locale: ptBR })
 
     return (
         <li className="w-full">
-            <Card className={cn(
-                "size-full", wasBought && "border-foreground bg-muted"
-            )}>
+            <Card className="size-full">
                 <CardHeader>
-                    <CardTitle className={cn(
-                        "w-full flex justify-between items-center text-3xl",
-                        wasBought && "line-through"
-                    )}>
+                    <CardTitle className="w-full flex justify-between items-center text-3xl">
                         <span className="capitalize">
                             {name}
                         </span>
-                        <Checkbox
-                            checked={wasBought}
-                            onCheckedChange={
-                                () => setWasBought(wasBought => !wasBought)
-                            }
-                            className="size-8"
-                        />
                     </CardTitle>
                     <CardDescription>
                         {date}
@@ -67,7 +53,7 @@ export const TaskItem = ({ item }: { item: Item }) => {
                         >
                             Adicionado por:
                             <Avatar>
-                                <AvatarImage src={imageUrl} />
+                                <AvatarImage src={image} />
                                 <AvatarFallback>
                                     <Ellipsis />
                                 </AvatarFallback>
@@ -85,7 +71,7 @@ export const TaskItem = ({ item }: { item: Item }) => {
                     </div>
                 </CardContent>
                 <CardFooter className="justify-end">
-                    <DropMenuItemOptions wasBought={wasBought} />
+                    <DropMenuItemOptions />
                 </CardFooter>
             </Card>
         </li>

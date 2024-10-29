@@ -4,16 +4,17 @@ import { FormCreateTaskType } from "@/@types/forms-type"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useUser } from "@/providers/user-provider"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormCreateTaskSchema } from "@/schemas/form-create-task-schema"
 import { cn } from "@/lib/utils"
 import { useHttp } from "@/http"
-import { useSession } from "next-auth/react"
 import { toast } from "@/lib/toast"
 import { SelectUnit } from "@/components/select-unit"
 import { useEffect, useState } from "react"
 import { Unit } from "@prisma/client"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface FormCreateTaskProps {
     setIsOpen: (open: boolean) => void
@@ -23,9 +24,9 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
     const [selectValue, setSelectValue] = useState<string>("UN")
 
-    const { data } = useSession()
+    const { user: { email, image, name: userName } } = useUser()
     const http = useHttp()
-    const refresh = () => window.location.reload()
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         setValue("unit", selectValue as Unit)
@@ -40,15 +41,16 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
         resolver: zodResolver(FormCreateTaskSchema),
     })
 
+    function invalidateQuery(queryKey: [string]) {
+        queryClient.invalidateQueries({
+            queryKey
+        })
+    }
+
     function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
 
-        if (!data || !data.user || !data.user.email || !data.user.image) return
-
-        const email = data.user.email
-        const imageUrl = data.user.image
-
         http
-            .createTask({ email, name, quantity, obs, unit, imageUrl })
+            .createTask({ email, name, quantity, obs, unit, image, userName })
             .then(res => {
                 console.log(res)
 
@@ -57,7 +59,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                     variant: "sucess"
                 })
 
-                setTimeout(refresh, 2000)
+                setTimeout(() => invalidateQuery(["find-all-tasks"]), 2000)
             })
             .catch(err => {
                 console.log(err)

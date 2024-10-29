@@ -8,18 +8,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis, Pen, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
-export const DropMenuItemOptions = ({ wasBought }: { wasBought: boolean }) => {
+export const DropMenuItemOptions = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button
-                    variant={"outline"}
-                    className={cn(
-                        wasBought && "border-foreground bg-muted"
-                    )}
-                >
+                <Button variant={"outline"}>
                     <Ellipsis />
                 </Button>
             </DropdownMenuTrigger>

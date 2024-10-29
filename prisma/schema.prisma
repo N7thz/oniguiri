@@ -9,10 +9,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  imageUrl String @map("image-url")
-  tasks    Task[]
+  id    String @id @default(uuid())
+  email String @unique
+  image String
+  name  String
+  tasks Task[]
+
+  @@map("users")
 }
 
 model Task {
@@ -20,12 +23,25 @@ model Task {
   name      String   @unique
   quantity  Int
   wasBought Boolean  @map("was-bought")
-  obs       String?
   createdAt DateTime @default(now()) @map("created-at")
   updatedAt DateTime @updatedAt @map("updated-at")
   userId    String
+  obs       String?
+  historyId String?
   unit      Unit
   user      User     @relation(fields: [userId], references: [id])
+  History   History? @relation(fields: [historyId], references: [id])
+
+  @@map("tasks")
+}
+
+model History {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created-at")
+  updatedAt DateTime @updatedAt @map("updated-at")
+  tasks     Task[]
+
+  @@map("history")
 }
 
 enum Unit {

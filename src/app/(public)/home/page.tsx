@@ -8,21 +8,12 @@ import { DialogCreateTask } from "@/components/dialog-create-task"
 import { Toaster } from "@/components/ui/sonner"
 import { ScrollItemsTasks } from "@/components/tasks/scroll-items-tasks"
 import { Button } from "@/components/ui/button"
-import webpush from "web-push"
 
 export const metadata: Metadata = {
     title: "Oniguiri list | Home"
 }
 
 export default function Home() {
-
-    const vapidKeys = webpush.generateVAPIDKeys()
-
-    console.log('Paste the following keys in your .env file:')
-    console.log('-------------------')
-    console.log('NEXT_PUBLIC_VAPID_PUBLIC_KEY=', vapidKeys.publicKey)
-    console.log('VAPID_PRIVATE_KEY=', vapidKeys.privateKey)
-
     return (
         <>
             <PagePrivete

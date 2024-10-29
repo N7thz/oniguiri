@@ -16,7 +16,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
 
     const {
-        name, quantity, obs, unit, email, imageUrl,
+        name, quantity, obs, unit, email, image, userName
     }: CreateTaskResquest = await request.json()
 
     const { task: taskExisted } = await findTaskByName(name)
@@ -35,7 +35,12 @@ export async function POST(request: NextRequest) {
     let user = UserExisted
 
     if (error) {
-        const { user: userCreated } = await createUser({ email, imageUrl })
+
+        const { user: userCreated } = await createUser({
+            email,
+            image,
+            name: userName
+        })
 
         user = userCreated
     }

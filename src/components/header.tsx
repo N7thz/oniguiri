@@ -1,18 +1,14 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useSession } from "next-auth/react"
+import { useUser } from "@/providers/user-provider"
 import { Icon } from "./icon"
-import Link from "next/link"
 import { Ellipsis } from "lucide-react"
+import Link from "next/link"
 
 export const Header = () => {
 
-    const { data } = useSession()
-
-    const image = (data && data.user && data.user.image)
-        ? data.user.image
-        : undefined
+    const { user: { image } } = useUser()
 
     return (
         <div
