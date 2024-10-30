@@ -1,54 +1,73 @@
-"use client"
-
-import { FormCreateTaskType } from "@/@types/forms-type"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useUser } from "@/providers/user-provider"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FormCreateTaskSchema } from "@/schemas/form-create-task-schema"
 import { cn } from "@/lib/utils"
-import { useHttp } from "@/http"
+import { api, useHttp } from "@/http"
 import { toast } from "@/lib/toast"
 import { SelectUnit } from "@/components/select-unit"
 import { useEffect, useState } from "react"
-import { Unit } from "@prisma/client"
-import { useQueryClient } from "@tanstack/react-query"
+import { Task, Unit } from "@prisma/client"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Item } from "@/@types"
+import { FormCreateTaskType as FormUpdateTaskType } from "@/@types/forms-type"
+import {
+    FormCreateTaskSchema as FormUpdateTaskSchema
+} from "@/schemas/form-create-task-schema"
 import { invalidateQuery } from "@/functions/invalidate-query"
 
-interface FormCreateTaskProps {
-    setIsOpen: (open: boolean) => void
-}
+export const FormUpdateTask = ({ item: { id } }: { item: Item }) => {
 
-export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
-
-    const [selectValue, setSelectValue] = useState<string>("UN")
-
-    const { user: { email, image, name: userName } } = useUser()
     const http = useHttp()
     const queryClient = useQueryClient()
 
-    useEffect(() => {
-        setValue("unit", selectValue as Unit)
-    }, [selectValue])
+    const { data: task, isLoading } = useQuery({
+        queryKey: ["find-task-by-id", id],
+        queryFn: async () => {
+
+            const response = await api.get<Task>(`/tasks/${id}`)
+
+            return response.data
+        }
+    })
+
+    console.log(task)
 
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<FormCreateTaskType>({
-        resolver: zodResolver(FormCreateTaskSchema),
+    } = useForm<FormUpdateTaskType>({
+        resolver: zodResolver(FormUpdateTaskSchema),
+        defaultValues: {
+            name: task?.name,
+            obs: task?.obs ?? undefined,
+            quantity: task?.quantity,
+            unit: task?.unit
+        }
     })
 
-    function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
+    const [selectValue, setSelectValue] = useState<string>(task?.unit ?? "UN")
+
+    useEffect(() => {
+        setValue("unit", selectValue as Unit)
+    }, [selectValue])
+
+    if (!task || isLoading) return
+
+    const { name, obs, quantity, unit } = task
+
+    function updateTask({ name, quantity, obs, unit }: FormUpdateTaskType) {
+
+        console.log({ name, quantity, obs, unit })
 
         http
-            .createTask({ email, name, quantity, obs, unit, image, userName })
+            .updateTask({ id, name, quantity, unit, obs })
             .then(res => {
-                
-                console.log(res.data)
+                console.log(res)
 
                 toast({
                     title: "Item criado com sucesso.",
@@ -57,7 +76,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
                 setTimeout(() => invalidateQuery({
                     queryClient,
-                    queryKey: ["find-all-tasks"]
+                    queryKey: ["find-task-by-id", id]
                 }), 2000)
             })
             .catch(err => {
@@ -68,18 +87,18 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                     variant: "error"
                 })
             })
-            .finally(() => setIsOpen(false))
     }
 
     return (
         <form
-            id="form-create-task"
-            onSubmit={handleSubmit(createTask)}
+            id="form-update-task"
+            onSubmit={handleSubmit(updateTask)}
             className="flex flex-col gap-6"
         >
             <Label>
                 Nome:
                 <Input
+                    defaultValue={name}
                     className={cn(
                         "my-4",
                         errors.name && "border-2 border-destructive"
@@ -97,7 +116,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                 Quantidade:
                 <Input
                     type="number"
-                    defaultValue={1}
+                    defaultValue={quantity}
                     className={cn(
                         "my-4",
                         errors.quantity && "border-2 border-destructive"
@@ -124,6 +143,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
             <Label>
                 Observações:
                 <Textarea
+                    defaultValue={obs ?? undefined}
                     className="mt-3"
                     {...register("obs")}
                 />

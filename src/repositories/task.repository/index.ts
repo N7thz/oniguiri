@@ -38,7 +38,22 @@ export function TaskRepository() {
         })
 
         if (!task) return {
-            error: "User not exist."
+            error: "Task not exist."
+        }
+
+        return { task }
+    }
+
+    async function findTaskById(id: string) {
+
+        const task = await prisma.task.findUnique({
+            where: {
+                id
+            }
+        })
+
+        if (!task) return {
+            error: "Task not exist."
         }
 
         return { task }
@@ -56,6 +71,7 @@ export function TaskRepository() {
     return {
         createTask,
         findTaskByName,
+        findTaskById,
         findAllTasks
     }
 }

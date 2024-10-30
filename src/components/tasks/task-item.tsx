@@ -8,7 +8,6 @@ import { Item } from "@/@types"
 import { Ellipsis } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { DropMenuItemOptions } from "@/components/drop-menu-item-options"
-import { useState } from "react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
@@ -71,7 +70,7 @@ export const TaskItem = ({ item }: { item: Item }) => {
                     </div>
                 </CardContent>
                 <CardFooter className="justify-end">
-                    <DropMenuItemOptions />
+                    <DropMenuItemOptions item={item} />
                 </CardFooter>
             </Card>
         </li>

@@ -7,6 +7,10 @@ export interface CreateTaskResquest extends FormCreateTaskType {
     image: string
 }
 
-export interface Item extends Task {
+export interface UpdateTaskResquest extends FormCreateTaskType {
+    id: string
+}
+
+export type Item = Task & {
     user: User
 }

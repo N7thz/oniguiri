@@ -1,4 +1,4 @@
-import { CreateTaskResquest } from "@/@types"
+import { CreateTaskResquest, UpdateTaskResquest } from "@/@types"
 import { Task } from "@prisma/client"
 import axios from "axios"
 
@@ -12,7 +12,15 @@ export function useHttp() {
         return api.post<Task>("/tasks", body)
     }
 
+    async function updateTask({ id, ...props }: UpdateTaskResquest) {
+
+        const body = { ...props }
+
+        return api.post<Task>(`/tasks/${id}`, body)
+    }
+
     return {
-        createTask
+        createTask,
+        updateTask
     }
 }

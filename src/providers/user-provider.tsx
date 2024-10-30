@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { createContext, ReactNode, useContext } from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 
 type User = {
     name: string

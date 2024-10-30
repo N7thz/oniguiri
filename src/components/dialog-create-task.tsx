@@ -36,13 +36,13 @@ export const DialogCreateTask = () => {
                         Crie o item que deve ser adicionado a lista
                     </DialogDescription>
                 </DialogHeader>
-                <FormCreateTask  setIsOpen={setIsOpen} />
+                <FormCreateTask setIsOpen={setIsOpen} />
                 <DialogFooter>
                     <Button
                         form="form-create-task"
                         type="submit"
                     >
-                        Save changes
+                        Confirmar
                     </Button>
                 </DialogFooter>
             </DialogContent>

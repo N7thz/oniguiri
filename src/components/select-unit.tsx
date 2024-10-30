@@ -14,14 +14,14 @@ import { ComponentProps } from "react"
 interface SelectUnitProps extends ComponentProps<"select"> {
     value: string
     onValueChange: (value: string) => void
+    defaultValue?: Unit
 }
 
 export const SelectUnit = ({
-    className, value, onValueChange
+    className, value, defaultValue = "UN", onValueChange
 }: SelectUnitProps) => {
 
     const units: Unit[] = ["KG", "MG", "UN", "DZ", "LT"]
-    const defaultValue: Unit = "UN"
 
     return (
         <Select
