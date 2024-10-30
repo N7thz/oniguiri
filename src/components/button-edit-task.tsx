@@ -34,7 +34,7 @@ export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
                         Atualize um item já criado.
                     </DialogDescription>
                 </DialogHeader>
-                <FormUpdateTask item={item} />
+                <FormUpdateTask id={item.id} />
                 <DialogFooter>
                     <Button
                         type="submit"
