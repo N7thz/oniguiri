@@ -8,16 +8,28 @@ import { Loading } from "./loading"
 import { useFormUpdateTaskApi } from "./use-form-update-task-api"
 import { useFormUpdateTask } from "./use-form-update-task"
 
-export const FormUpdateTask = ({ id }: { id: string }) => {
+interface FormUpdateTaskProps {
+    id: string
+    setIsOpen: (open: boolean) => void
+}
+interface FormProps {
+    task: Task
+    setIsOpen: (open: boolean) => void
+}
+
+export const FormUpdateTask = ({ id, setIsOpen }: FormUpdateTaskProps) => {
 
     const { isLoading, task } = useFormUpdateTaskApi(id)
 
     if (!task || isLoading) return <Loading />
 
-    return <Form task={task} />
+    return <Form
+        task={task}
+        setIsOpen={setIsOpen}
+    />
 }
 
-const Form = ({ task }: { task: Task }) => {
+const Form = ({ task, setIsOpen }: FormProps) => {
 
     const {
         name,
@@ -29,7 +41,7 @@ const Form = ({ task }: { task: Task }) => {
         register,
         handleSubmit,
         updateTask,
-    } = useFormUpdateTask(task)
+    } = useFormUpdateTask({ task, setIsOpen })
 
     return (
         <form

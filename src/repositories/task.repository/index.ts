@@ -10,6 +10,16 @@ interface CreateTaskProps {
     userId: string
 }
 
+interface UpdateTaskProps {
+    data: {
+        name: string
+        quantity: number
+        obs: string | null
+        unit: Unit
+    }
+    id: string
+}
+
 export function TaskRepository() {
 
     async function findAllTasks() {
@@ -68,8 +78,31 @@ export function TaskRepository() {
         return { task }
     }
 
+    async function updateTask({ id, data }: UpdateTaskProps) {
+
+        const task = await prisma.task.update({
+            where: {
+                id
+            },
+            data
+        })
+
+        return { task }
+    }
+
+    async function deleteTask(id: string) {
+
+        await prisma.task.delete({
+            where: {
+                id
+            },
+        })
+    }
+
     return {
         createTask,
+        updateTask,
+        deleteTask,
         findTaskByName,
         findTaskById,
         findAllTasks

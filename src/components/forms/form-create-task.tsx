@@ -15,7 +15,6 @@ import { SelectUnit } from "@/components/select-unit"
 import { useEffect, useState } from "react"
 import { Unit } from "@prisma/client"
 import { useQueryClient } from "@tanstack/react-query"
-import { invalidateQuery } from "@/functions/invalidate-query"
 
 interface FormCreateTaskProps {
     setIsOpen: (open: boolean) => void
@@ -42,6 +41,12 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
         resolver: zodResolver(FormCreateTaskSchema),
     })
 
+    function invalidateQuery() {
+        queryClient.invalidateQueries({
+            queryKey: ["find-all-tasks"]
+        })
+    }
+
     function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
 
         http
@@ -55,10 +60,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
                     variant: "sucess"
                 })
 
-                setTimeout(() => invalidateQuery({
-                    queryClient,
-                    queryKey: ["find-all-tasks"]
-                }), 2000)
+                setTimeout(invalidateQuery, 1000)
             })
             .catch(err => {
                 console.log(err)

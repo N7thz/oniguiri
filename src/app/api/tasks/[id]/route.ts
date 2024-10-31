@@ -1,19 +1,22 @@
-import { TaskRepository } from "@/repositories/task.repository"
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
+import { Get } from "./get"
+import { Put } from "./put"
+import { Delete } from "./delete"
 
-interface ContextProps {
+export interface ContextProps {
     params: {
         id: string
     }
 }
 
-export async function GET(_: NextRequest, { params: { id } }: ContextProps) {
-
-    const { findTaskById } = TaskRepository()
-
-    const { error, task } = await findTaskById(id)
-
-    if (error) return NextResponse.json({ message: error }, { status: 401 })
-
-    return NextResponse.json(task)
+export async function GET(_: NextRequest, context: ContextProps) {
+    return Get(context)
 }
+
+export async function PUT(request: NextRequest, context: ContextProps) {
+    return Put(request, context)
+}
+
+export async function DELETE(_: NextRequest, context: ContextProps) {
+    return Delete(context)
+} 

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ButtonEditTask } from "./button-edit-task"
+import { ButtonEditTask } from "./tasks/button-edit-task"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Item } from "@/@types"

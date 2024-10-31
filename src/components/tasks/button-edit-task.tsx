@@ -1,27 +1,35 @@
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger
-} from "./ui/dialog"
-import { Button } from "./ui/button"
+} from "../ui/dialog"
+import { Button } from "../ui/button"
 import { Pen } from "lucide-react"
 import { Item } from "@/@types"
-import { FormUpdateTask } from "./forms/form-update-task"
+import { FormUpdateTask } from "../forms/form-update-task"
+import { Dispatch, SetStateAction, useState } from "react"
 
 interface ButtonEditTaskProps {
-    setIsVisible: (visible: boolean) => void
+    setIsVisible: Dispatch<SetStateAction<boolean>>
     item: Item
 }
 
 export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
 
-    console.log(item.id)
+    const [isOpen, setIsOpen] = useState(false)
+
+    function onOpenChange(open: boolean) {
+        setIsOpen(open => !open)
+        setIsVisible(open => !open)
+    }
 
     return (
-        <Dialog onOpenChange={setIsVisible}>
+        <Dialog
+            open={isOpen}
+            onOpenChange={onOpenChange}
+        >
             <DialogTrigger asChild>
                 <Button
                     variant="ghost"
                     className="w-full"
-                    onClick={() => setIsVisible(true)}
                 >
                     <Pen className="size-4" />
                     Editar
@@ -34,7 +42,10 @@ export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
                         Atualize um item já criado.
                     </DialogDescription>
                 </DialogHeader>
-                <FormUpdateTask id={item.id} />
+                <FormUpdateTask
+                    id={item.id}
+                    setIsOpen={setIsOpen}
+                />
                 <DialogFooter>
                     <Button
                         type="submit"

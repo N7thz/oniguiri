@@ -9,9 +9,13 @@ import { FormCreateTaskType as FormUpdateTaskType } from "@/@types/forms-type"
 import {
     FormCreateTaskSchema as FormUpdateTaskSchema
 } from "@/schemas/form-create-task-schema"
-import { invalidateQuery } from "@/functions/invalidate-query"
 
-export function useFormUpdateTask(task: Task) {
+interface FormProps {
+    task: Task
+    setIsOpen: (open: boolean) => void
+}
+
+export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
 
     const http = useHttp()
     const queryClient = useQueryClient()
@@ -27,10 +31,12 @@ export function useFormUpdateTask(task: Task) {
         formState: { errors },
     } = useForm<FormUpdateTaskType>({
         resolver: zodResolver(FormUpdateTaskSchema),
+        mode: "onChange",
         defaultValues: {
             name,
             obs: obs,
-            quantity: quantity,
+            //@ts-ignore
+            quantity: quantity.toString(),
             unit: unit
         }
     })
@@ -41,24 +47,24 @@ export function useFormUpdateTask(task: Task) {
         setValue("unit", selectValue as Unit)
     }, [selectValue])
 
-    function updateTask({ name, quantity, obs, unit }: FormUpdateTaskType) {
+    function invalidateQuery() {
+        queryClient.invalidateQueries({
+            queryKey: ["find-all-tasks"]
+        })
+    }
 
-        console.log({ name, quantity, obs, unit })
+    function updateTask({ name, quantity, obs, unit }: FormUpdateTaskType) {
 
         http
             .updateTask({ id, name, quantity, unit, obs })
-            .then(res => {
-                console.log(res)
+            .then(() => {
 
                 toast({
                     title: "Item atualizado com sucesso.",
                     variant: "sucess"
                 })
 
-                setTimeout(() => invalidateQuery({
-                    queryClient,
-                    queryKey: ["find-task-by-id", id]
-                }), 2000)
+                setTimeout(invalidateQuery, 1000)
             })
             .catch(err => {
                 console.log(err)
@@ -68,6 +74,7 @@ export function useFormUpdateTask(task: Task) {
                     variant: "error"
                 })
             })
+            .finally(() => setIsOpen(false))
     }
 
     return {
