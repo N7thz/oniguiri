@@ -4,6 +4,9 @@ import { DotBackground } from "@/components/dot-background"
 import { UserProvider } from "@/providers/user-provider"
 import { Metadata } from "./metadata"
 import "./globals.css"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-siderbar"
+import { cn } from "@/lib/utils"
 
 const font = JetBrains_Mono({ subsets: ["latin"] })
 
@@ -21,11 +24,14 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
         >
-          <UserProvider>
-            <DotBackground>
-              {children}
-            </DotBackground>
-          </UserProvider>
+          <SidebarProvider defaultOpen={false}>
+            <AppSidebar />
+            <UserProvider>
+              <DotBackground>
+                {children}
+              </DotBackground>
+            </UserProvider>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

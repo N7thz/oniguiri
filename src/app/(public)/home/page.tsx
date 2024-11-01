@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <>
             <PagePrivete
-                className="h-dvh w-full flex items-center justify-center"
+                className="flex-1 flex items-center justify-center"
             >
                 <Card className="size-5/6">
                     <CardHeader
