@@ -1,5 +1,5 @@
 import { CreateTaskResquest } from "@/@types"
-import { TaskRepository } from "@/repositories/task.repository"
+import { TaskRepository } from "@/repositories/task.repository/@index"
 import { UserRepository } from "@/repositories/user.repository"
 import { NextRequest, NextResponse } from "next/server"
 

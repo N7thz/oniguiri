@@ -9,6 +9,7 @@ import { FormCreateTaskType as FormUpdateTaskType } from "@/@types/forms-type"
 import {
     FormCreateTaskSchema as FormUpdateTaskSchema
 } from "@/schemas/form-create-task-schema"
+import { useUser } from "@/providers/user-provider"
 
 interface FormProps {
     task: Task
@@ -18,7 +19,7 @@ interface FormProps {
 export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
 
     const http = useHttp()
-    const queryClient = useQueryClient()
+    const { invalidateQuery } = useUser()
 
     const { id, name, quantity, unit } = task
 
@@ -46,12 +47,6 @@ export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
     useEffect(() => {
         setValue("unit", selectValue as Unit)
     }, [selectValue])
-
-    function invalidateQuery() {
-        queryClient.invalidateQueries({
-            queryKey: ["find-all-tasks"]
-        })
-    }
 
     function updateTask({ name, quantity, obs, unit }: FormUpdateTaskType) {
 

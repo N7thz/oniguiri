@@ -13,4 +13,10 @@ export interface UpdateTaskResquest extends FormCreateTaskType {
 
 export type Item = Task & {
     user: User
+    userBuyer?: User 
+}
+export interface ContextProps {
+    params: {
+        id: string
+    }
 }

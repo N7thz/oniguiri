@@ -1,6 +1,6 @@
-import { TaskRepository } from "@/repositories/task.repository"
+import { TaskRepository } from "@/repositories/task.repository/@index"
 import { NextRequest, NextResponse } from "next/server"
-import { ContextProps } from "./route"
+import { ContextProps } from "@/@types"
 
 export async function Get({ params: { id } }: ContextProps) {
 

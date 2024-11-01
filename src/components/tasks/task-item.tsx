@@ -2,12 +2,11 @@ import {
     Card, CardHeader, CardTitle, CardDescription, CardContent,
     CardFooter
 } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Item } from "@/@types"
 import { Ellipsis } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { DropMenuItemOptions } from "@/components/drop-menu-item-options"
+import { DropMenuItemOptions } from "@/components/tasks/drop-menu-item-options"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
@@ -19,7 +18,8 @@ export const TaskItem = ({ item }: { item: Item }) => {
         unit,
         quantity,
         createdAt,
-        user: { image }
+        user: { image },
+        userBuyer
     } = item
 
     const date = format(createdAt, "PPp", { locale: ptBR })
@@ -47,6 +47,20 @@ export const TaskItem = ({ item }: { item: Item }) => {
                                 {unit}
                             </span>
                         </div>
+                    </div>
+                    <div>
+                        Obs:
+                        <span className={cn(
+                            "ml-2",
+                            !obs && "text-muted-foreground"
+                        )}>
+                            {obs ? obs : "Sem observação."}
+                        </span>
+                    </div>
+                    <div className={cn(
+                        "flex w-full mt-4",
+                        userBuyer ? "justify-between" : "justify-end"
+                    )}>
                         <div
                             className="flex flex-col items-center gap-2 text-muted-foreground"
                         >
@@ -58,15 +72,20 @@ export const TaskItem = ({ item }: { item: Item }) => {
                                 </AvatarFallback>
                             </Avatar>
                         </div>
-                    </div>
-                    <div>
-                        Obs:
-                        <span className={cn(
-                            "ml-2",
-                            !obs && "text-muted-foreground"
-                        )}>
-                            {obs ? obs : "Sem observação."}
-                        </span>
+                        {
+                            userBuyer &&
+                            <div
+                                className="flex flex-col items-center gap-2 text-muted-foreground"
+                            >
+                                Quem vai comprar:
+                                <Avatar>
+                                    <AvatarImage src={userBuyer.image} />
+                                    <AvatarFallback>
+                                        <Ellipsis />
+                                    </AvatarFallback>
+                                </Avatar>
+                            </div>
+                        }
                     </div>
                 </CardContent>
                 <CardFooter className="justify-end">

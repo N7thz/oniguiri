@@ -1,8 +1,15 @@
 import {
-    Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogClose
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Trash2 } from "lucide-react"
+import { Plus } from "lucide-react"
 import { Item } from "@/@types"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useHttp } from "@/http"
@@ -14,28 +21,28 @@ interface ButtonEditTaskProps {
     setIsVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export const ButtonRemoveTask = ({
+export const ButtonAddTaskToUser = ({
     item: { id, name }, setIsVisible
 }: ButtonEditTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
     const http = useHttp()
-    const { invalidateQuery } = useUser()
+    const { invalidateQuery, user: { email } } = useUser()
 
     function onOpenChange(_: boolean) {
         setIsOpen(open => !open)
         setIsVisible(open => !open)
     }
 
-    function removeTask(id: string) {
+    function addTaskToUserBuyer() {
 
         http
-            .removeTask(id)
+            .addTaskToUserBuyer({ id, email })
             .then(() => {
 
                 toast({
-                    title: "Item excluido com sucesso.",
+                    title: "Item adicionado com sucesso.",
                     variant: "sucess"
                 })
 
@@ -45,7 +52,7 @@ export const ButtonRemoveTask = ({
                 console.log(err)
 
                 toast({
-                    title: "Erro ao excluir o item.",
+                    title: "Erro ao adicionar o item.",
                     variant: "error"
                 })
             })
@@ -62,8 +69,8 @@ export const ButtonRemoveTask = ({
                     variant="ghost"
                     className="w-full justify-normal"
                 >
-                    <Trash2 className="size-4" />
-                    Remover
+                    <Plus className="size-4" />
+                    Adicionar a mim
                 </Button>
             </DialogTrigger>
             <DialogContent>
@@ -73,8 +80,8 @@ export const ButtonRemoveTask = ({
                         Remover um item já criado.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="text-destructive text-xl">
-                    Tem certeza que deseja excluir o item
+                <div className="text-xl">
+                    Tem certeza que deseja comprar o item
                     <span className="ml-2 uppercase font-bold">
                         {name}
                     </span>
@@ -86,10 +93,7 @@ export const ButtonRemoveTask = ({
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button
-                        variant="destructive"
-                        onClick={() => removeTask(id)}
-                    >
+                    <Button onClick={addTaskToUserBuyer}>
                         Confirmar
                     </Button>
                 </DialogFooter>

@@ -26,7 +26,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
     const { user: { email, image, name: userName } } = useUser()
     const http = useHttp()
-    const queryClient = useQueryClient()
+    const { invalidateQuery } = useUser()
 
     useEffect(() => {
         setValue("unit", selectValue as Unit)
@@ -41,18 +41,12 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
         resolver: zodResolver(FormCreateTaskSchema),
     })
 
-    function invalidateQuery() {
-        queryClient.invalidateQueries({
-            queryKey: ["find-all-tasks"]
-        })
-    }
-
     function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
 
         http
             .createTask({ email, name, quantity, obs, unit, image, userName })
             .then(res => {
-                
+
                 console.log(res.data)
 
                 toast({

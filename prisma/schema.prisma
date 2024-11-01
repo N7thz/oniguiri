@@ -9,28 +9,31 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  image String
-  name  String
-  tasks Task[]
+  id            String @id @default(uuid())
+  email         String @unique
+  image         String
+  name          String
+  tasksCreateds Task[]
+  TaskBuyer     Task[] @relation("userBuyer")
 
   @@map("users")
 }
 
 model Task {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  quantity  Int
-  wasBought Boolean  @map("was-bought")
-  createdAt DateTime @default(now()) @map("created-at")
-  updatedAt DateTime @updatedAt @map("updated-at")
-  userId    String
-  obs       String?
-  historyId String?
-  unit      Unit
-  user      User     @relation(fields: [userId], references: [id])
-  History   History? @relation(fields: [historyId], references: [id])
+  id          String   @id @default(uuid())
+  name        String   @unique
+  quantity    Int
+  wasBought   Boolean  @map("was-bought")
+  createdAt   DateTime @default(now()) @map("created-at")
+  updatedAt   DateTime @updatedAt @map("updated-at")
+  obs         String?
+  unit        Unit
+  userBuyerId String?
+  userBuyer   User?    @relation("userBuyer", fields: [userBuyerId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  historyId   String?
+  History     History? @relation(fields: [historyId], references: [id])
 
   @@map("tasks")
 }

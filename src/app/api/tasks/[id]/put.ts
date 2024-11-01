@@ -1,7 +1,7 @@
 import { UpdateTaskResquest } from "@/@types"
-import { TaskRepository } from "@/repositories/task.repository"
+import { TaskRepository } from "@/repositories/task.repository/@index"
 import { NextRequest, NextResponse } from "next/server"
-import { ContextProps } from "./route"
+import { ContextProps } from "@/@types"
 
 export async function Put(request: NextRequest, context: ContextProps) {
 
@@ -11,7 +11,7 @@ export async function Put(request: NextRequest, context: ContextProps) {
 
     const { error } = await findTaskById(id)
 
-    if (error) {        
+    if (error) {
         return NextResponse.json({
             message: "Task not exist"
         }, {

@@ -1,17 +1,18 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Ellipsis, Trash } from "lucide-react"
+import { Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ButtonEditTask } from "./tasks/button-edit-task"
+import { ButtonEditTask } from "@/components/tasks/button-edit-task"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Item } from "@/@types"
+import { ButtonRemoveTask } from "./button-remove-task"
+import { ButtonAddTaskToUser } from "./button-add-task-to-user"
 
 export const DropMenuItemOptions = ({ item }: { item: Item }) => {
 
@@ -24,17 +25,21 @@ export const DropMenuItemOptions = ({ item }: { item: Item }) => {
                     <Ellipsis />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className={cn(isVisible && "hidden")}>
+            <DropdownMenuContent className={cn("w-52", isVisible && "hidden")}>
                 <DropdownMenuLabel>Opções</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <ButtonEditTask
-                    setIsVisible={setIsVisible}
                     item={item}
+                    setIsVisible={setIsVisible}
                 />
-                <DropdownMenuItem>
-                    <Trash className="size-4" />
-                    Excluir
-                </DropdownMenuItem>
+                <ButtonRemoveTask
+                    item={item}
+                    setIsVisible={setIsVisible}
+                />
+                <ButtonAddTaskToUser
+                    item={item}
+                    setIsVisible={setIsVisible}
+                />
             </DropdownMenuContent>
         </DropdownMenu>
     )

@@ -1,10 +1,10 @@
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger
-} from "../ui/dialog"
-import { Button } from "../ui/button"
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 import { Pen } from "lucide-react"
 import { Item } from "@/@types"
-import { FormUpdateTask } from "../forms/form-update-task"
+import { FormUpdateTask } from "@/components/forms/form-update-task"
 import { Dispatch, SetStateAction, useState } from "react"
 
 interface ButtonEditTaskProps {
@@ -16,7 +16,7 @@ export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    function onOpenChange(open: boolean) {
+    function onOpenChange(_: boolean) {
         setIsOpen(open => !open)
         setIsVisible(open => !open)
     }
@@ -29,7 +29,7 @@ export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
             <DialogTrigger asChild>
                 <Button
                     variant="ghost"
-                    className="w-full"
+                    className="w-full justify-normal"
                 >
                     <Pen className="size-4" />
                     Editar

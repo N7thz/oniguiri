@@ -14,5 +14,5 @@ export const DotBackground = ({ children }: { children: ReactNode }) => {
                 "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
             )} />
         </div>
-    );
+    )
 }

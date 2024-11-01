@@ -1,6 +1,6 @@
-import { TaskRepository } from "@/repositories/task.repository"
+import { TaskRepository } from "@/repositories/task.repository/@index"
 import { NextResponse } from "next/server"
-import { ContextProps } from "./route"
+import { ContextProps } from "@/@types"
 
 export async function Delete({ params: { id } }: ContextProps) {
 
@@ -8,15 +8,15 @@ export async function Delete({ params: { id } }: ContextProps) {
 
     const { error } = await findTaskById(id)
 
-    if (error) {        
+    if (error) {
         return NextResponse.json({
             message: "Task not exist"
         }, {
-            status: 401
+            status: 400
         })
     }
 
     deleteTask(id)
 
-    return NextResponse.json({ message: "Deleted" }, { status: 203 })
+    return NextResponse.json("no Body")
 }

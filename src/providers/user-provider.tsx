@@ -1,5 +1,6 @@
 "use client"
 
+import { useQueryClient } from "@tanstack/react-query"
 import { useSession } from "next-auth/react"
 import { createContext, ReactNode, useContext, useState } from "react"
 
@@ -11,6 +12,7 @@ type User = {
 
 interface UserContextProps {
     user: User
+    invalidateQuery: () => void
 }
 
 const UserContext = createContext({} as UserContextProps)
@@ -18,12 +20,22 @@ const UserContext = createContext({} as UserContextProps)
 export function UserProvider({ children }: { children: ReactNode }) {
 
     const { data } = useSession()
+    const queryClient = useQueryClient()
+
+    function invalidateQuery() {
+        queryClient.invalidateQueries({
+            queryKey: ["find-all-tasks"]
+        })
+    }
 
     if (!data || !data.user) return
 
     const user = data.user as User
 
-    const value: UserContextProps = { user }
+    const value: UserContextProps = {
+        user,
+        invalidateQuery
+    }
 
     return (
         <UserContext.Provider value={value}>

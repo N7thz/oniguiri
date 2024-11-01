@@ -2,12 +2,7 @@ import { NextRequest } from "next/server"
 import { Get } from "./get"
 import { Put } from "./put"
 import { Delete } from "./delete"
-
-export interface ContextProps {
-    params: {
-        id: string
-    }
-}
+import { ContextProps } from "@/@types"
 
 export async function GET(_: NextRequest, context: ContextProps) {
     return Get(context)

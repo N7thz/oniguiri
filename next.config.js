@@ -23,7 +23,7 @@ module.exports = {
                 headers: [
                     {
                         key: 'Content-Type',
-                        value: 'application/javascript; charset=utf-8',
+                        value: 'application/javascript charset=utf-8',
                     },
                     {
                         key: 'Cache-Control',
@@ -31,7 +31,7 @@ module.exports = {
                     },
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self'",
+                        value: "default-src 'self' script-src 'self'",
                     },
                 ],
             },
