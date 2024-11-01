@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormCreateTaskSchema } from "@/schemas/form-create-task-schema"
 import { cn } from "@/lib/utils"
-import { useHttp } from "@/http"
+import { http } from "@/http"
 import { toast } from "@/lib/toast"
 import { SelectUnit } from "@/components/select-unit"
 import { useEffect, useState } from "react"
@@ -25,7 +25,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
     const [selectValue, setSelectValue] = useState<string>("UN")
 
     const { user: { email, image, name: userName } } = useUser()
-    const http = useHttp()
+
     const { invalidateQuery } = useUser()
 
     useEffect(() => {

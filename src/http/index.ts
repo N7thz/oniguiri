@@ -11,7 +11,7 @@ interface AddTaskToUserBuyerRequest {
     email: string
 }
 
-export function useHttp() {
+function useHttp() {
 
     async function createTask(body: CreateTaskResquest) {
         return api.post<Task>("/tasks", body)
@@ -29,13 +29,20 @@ export function useHttp() {
     }
 
     async function addTaskToUserBuyer({ id, email }: AddTaskToUserBuyerRequest) {
-        return api.post(`/add-user-to-task/${id}`, { email })
+        return api.post(`/user-to-task/${id}`, { email })
+    }
+
+    async function removeTaskToUserBuyer(id: string) {
+        return api.put(`/user-to-task/${id}`)
     }
 
     return {
         createTask,
         updateTask,
         removeTask,
-        addTaskToUserBuyer
+        addTaskToUserBuyer,
+        removeTaskToUserBuyer
     }
 }
+
+export const http = useHttp()

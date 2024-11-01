@@ -1,5 +1,6 @@
 import { Task, User } from "@prisma/client"
 import { FormCreateTaskType } from "./forms-type"
+import { Dispatch, SetStateAction } from "react"
 
 export interface CreateTaskResquest extends FormCreateTaskType {
     userName: string
@@ -19,4 +20,9 @@ export interface ContextProps {
     params: {
         id: string
     }
+}
+
+export interface ButtonTaskProps {
+    item: Item
+    setIsVisible: Dispatch<SetStateAction<boolean>>
 }

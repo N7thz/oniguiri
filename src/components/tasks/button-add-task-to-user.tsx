@@ -9,25 +9,19 @@ import {
     DialogClose
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
-import { Item } from "@/@types"
-import { Dispatch, SetStateAction, useState } from "react"
-import { useHttp } from "@/http"
+import { Minus, Plus } from "lucide-react"
+import { ButtonTaskProps } from "@/@types"
+import { useState } from "react"
+import { http } from "@/http"
 import { toast } from "@/lib/toast"
 import { useUser } from "@/providers/user-provider"
 
-interface ButtonEditTaskProps {
-    item: Item
-    setIsVisible: Dispatch<SetStateAction<boolean>>
-}
-
 export const ButtonAddTaskToUser = ({
-    item: { id, name }, setIsVisible
-}: ButtonEditTaskProps) => {
+    item: { id, name, userBuyer }, setIsVisible
+}: ButtonTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const http = useHttp()
     const { invalidateQuery, user: { email } } = useUser()
 
     function onOpenChange(_: boolean) {
@@ -56,8 +50,40 @@ export const ButtonAddTaskToUser = ({
                     variant: "error"
                 })
             })
+            .finally(() => onOpenChange(false))
+    }
+
+    function removeTaskToUserBuyer() {
+
+        http
+            .removeTaskToUserBuyer(id)
+            .then(() => {
+
+                toast({
+                    title: "Item removido com sucesso.",
+                    variant: "sucess"
+                })
+
+                setTimeout(invalidateQuery, 1000)
+            })
+            .catch(err => {
+                console.log(err)
+
+                toast({
+                    title: "Erro ao remover o item.",
+                    variant: "error"
+                })
+            })
             .finally(() => setIsOpen(false))
     }
+
+    const userBuyerExist = userBuyer !== undefined && userBuyer !== null
+
+    const isMyItem = userBuyer?.email === email
+
+    const Icon = isMyItem ? Minus : Plus
+
+    const action = isMyItem ? "remover" : "comprar"
 
     return (
         <Dialog
@@ -68,20 +94,28 @@ export const ButtonAddTaskToUser = ({
                 <Button
                     variant="ghost"
                     className="w-full justify-normal"
+                    disabled={userBuyerExist && !isMyItem}
                 >
-                    <Plus className="size-4" />
-                    Adicionar a mim
+                    <Icon className="size-4" />
+                    {isMyItem ? "Remover de mim" : "Adicionar a mim"}
+
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Remover item</DialogTitle>
+                    <DialogTitle>
+                        {isMyItem ? "Remover item" : "Adicionar item"}
+                    </DialogTitle>
                     <DialogDescription>
-                        Remover um item já criado.
+                        {
+                            isMyItem
+                                ? "Remover item adicionado"
+                                : " Adicionar um item a mim"
+                        }
                     </DialogDescription>
                 </DialogHeader>
                 <div className="text-xl">
-                    Tem certeza que deseja comprar o item
+                    {`Tem certeza que deseja ${action} o item`}
                     <span className="ml-2 uppercase font-bold">
                         {name}
                     </span>
@@ -93,7 +127,9 @@ export const ButtonAddTaskToUser = ({
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button onClick={addTaskToUserBuyer}>
+                    <Button onClick={
+                        isMyItem ? removeTaskToUserBuyer : addTaskToUserBuyer
+                    }>
                         Confirmar
                     </Button>
                 </DialogFooter>

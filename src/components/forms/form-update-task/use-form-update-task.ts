@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useHttp } from "@/http"
+import { http } from "@/http"
 import { toast } from "@/lib/toast"
 import { useEffect, useState } from "react"
 import { Task, Unit } from "@prisma/client"
@@ -18,7 +18,7 @@ interface FormProps {
 
 export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
 
-    const http = useHttp()
+
     const { invalidateQuery } = useUser()
 
     const { id, name, quantity, unit } = task

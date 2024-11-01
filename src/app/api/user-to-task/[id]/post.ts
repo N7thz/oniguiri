@@ -3,17 +3,18 @@ import { TaskRepository } from "@/repositories/task.repository/@index"
 import { UserRepository } from "@/repositories/user.repository"
 import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(request: NextRequest, context: ContextProps) {
+export async function Post(request: NextRequest, context: ContextProps) {
 
     const { addUserBuyerTask, findTaskById } = TaskRepository()
     const { findUserByEmail } = UserRepository()
+
     const { email }: { email: string } = await request.json()
     const { params: { id } } = context
 
     const { error } = await findTaskById(id)
     const {
+        user,
         error: EmailError,
-        user
     } = await findUserByEmail(email)
 
     if (error || EmailError) {

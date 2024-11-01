@@ -1,18 +1,19 @@
 import {
-    Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Pen } from "lucide-react"
-import { Item } from "@/@types"
+import { ButtonTaskProps } from "@/@types"
 import { FormUpdateTask } from "@/components/forms/form-update-task"
-import { Dispatch, SetStateAction, useState } from "react"
+import { useState } from "react"
 
-interface ButtonEditTaskProps {
-    setIsVisible: Dispatch<SetStateAction<boolean>>
-    item: Item
-}
-
-export const ButtonEditTask = ({ setIsVisible, item }: ButtonEditTaskProps) => {
+export const ButtonEditTask = ({ setIsVisible, item }: ButtonTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 

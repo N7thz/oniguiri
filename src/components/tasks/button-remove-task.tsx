@@ -1,26 +1,28 @@
 import {
-    Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogClose
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
-import { Item } from "@/@types"
-import { Dispatch, SetStateAction, useState } from "react"
-import { useHttp } from "@/http"
+import { ButtonTaskProps } from "@/@types"
+import { useState } from "react"
+import { http } from "@/http"
 import { toast } from "@/lib/toast"
 import { useUser } from "@/providers/user-provider"
 
-interface ButtonEditTaskProps {
-    item: Item
-    setIsVisible: Dispatch<SetStateAction<boolean>>
-}
-
 export const ButtonRemoveTask = ({
-    item: { id, name }, setIsVisible
-}: ButtonEditTaskProps) => {
+    item: { id, name, userBuyer }, setIsVisible
+}: ButtonTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const http = useHttp()
+
     const { invalidateQuery } = useUser()
 
     function onOpenChange(_: boolean) {

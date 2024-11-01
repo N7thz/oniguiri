@@ -1,4 +1,5 @@
 import { addUserBuyerTask } from "./add-user-buyer-task"
+import { removeUserBuyerTask } from "./remove-user-buyer-task"
 import { createTask } from "./create-task"
 import { deleteTask } from "./delete-task"
 import { findAllTasks } from "./find-all-tasks"
@@ -9,6 +10,7 @@ import { updateTask } from "./update-task"
 export function TaskRepository() {
     return {
         addUserBuyerTask,
+        removeUserBuyerTask,
         createTask,
         updateTask,
         deleteTask,
