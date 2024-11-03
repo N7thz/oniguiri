@@ -1,7 +1,7 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 import { Icon } from "@/components/icon"
 import { Ellipsis } from "lucide-react"
 import Link from "next/link"
@@ -9,7 +9,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 
 export const Header = () => {
 
-    const { user: { image } } = useUser()
+    const { user: { image } } = useApplication()
     const { toggleSidebar } = useSidebar()
 
     return (

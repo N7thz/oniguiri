@@ -3,14 +3,14 @@
 import { SidebarMenuButton } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { RefreshCcw } from "lucide-react"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 import { useEffect, useState } from "react"
 
 export const ButtonRefresh = () => {
 
     const [isSync, setIsSync] = useState(false)
 
-    const { invalidateQuery } = useUser()
+    const { invalidateQuery } = useApplication()
 
     useEffect(() => {
         setTimeout(() => setIsSync(false), 10000)

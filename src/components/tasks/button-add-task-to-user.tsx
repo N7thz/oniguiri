@@ -14,7 +14,7 @@ import { ButtonTaskProps } from "@/@types"
 import { useState } from "react"
 import { http } from "@/http"
 import { toast } from "@/lib/toast"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 
 export const ButtonAddTaskToUser = ({
     item: { id, name, userBuyer }, setIsVisible
@@ -22,7 +22,7 @@ export const ButtonAddTaskToUser = ({
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const { invalidateQuery, user: { email } } = useUser()
+    const { invalidateQuery, user: { email } } = useApplication()
 
     function onOpenChange(_: boolean) {
         setIsOpen(open => !open)
@@ -31,7 +31,7 @@ export const ButtonAddTaskToUser = ({
 
     function addTaskToUserBuyer() {
 
-        http
+        http()
             .addTaskToUserBuyer({ id, email })
             .then(() => {
 
@@ -55,7 +55,7 @@ export const ButtonAddTaskToUser = ({
 
     function removeTaskToUserBuyer() {
 
-        http
+        http()
             .removeTaskToUserBuyer(id)
             .then(() => {
 

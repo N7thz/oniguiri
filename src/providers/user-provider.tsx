@@ -47,4 +47,4 @@ export function UserProvider({ children }: { children: ReactNode }) {
     )
 }
 
-export const useUser = () => useContext(UserContext)
+export const useApplication = () => useContext(UserContext)

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar"
 import { ButtonLogOut } from "./button-logout"
 import { RefreshCcw } from "lucide-react"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 import { ButtonRefresh } from "./button-refresh"
 
 export const AppSidebar = () => {

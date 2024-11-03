@@ -4,7 +4,7 @@ import { FormCreateTaskType } from "@/@types/forms-type"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormCreateTaskSchema } from "@/schemas/form-create-task-schema"
@@ -24,9 +24,9 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
     const [selectValue, setSelectValue] = useState<string>("UN")
 
-    const { user: { email, image, name: userName } } = useUser()
+    const { user: { email, image, name: userName } } = useApplication()
 
-    const { invalidateQuery } = useUser()
+    const { invalidateQuery } = useApplication()
 
     useEffect(() => {
         setValue("unit", selectValue as Unit)
@@ -43,7 +43,7 @@ export const FormCreateTask = ({ setIsOpen }: FormCreateTaskProps) => {
 
     function createTask({ name, quantity, obs, unit }: FormCreateTaskType) {
 
-        http
+        http()
             .createTask({ email, name, quantity, obs, unit, image, userName })
             .then(res => {
 

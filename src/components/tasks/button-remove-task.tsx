@@ -14,16 +14,16 @@ import { ButtonTaskProps } from "@/@types"
 import { useState } from "react"
 import { http } from "@/http"
 import { toast } from "@/lib/toast"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 
 export const ButtonRemoveTask = ({
-    item: { id, name, userBuyer }, setIsVisible
+    item: { id, name }, setIsVisible
 }: ButtonTaskProps) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
 
-    const { invalidateQuery } = useUser()
+    const { invalidateQuery } = useApplication()
 
     function onOpenChange(_: boolean) {
         setIsOpen(open => !open)
@@ -32,7 +32,7 @@ export const ButtonRemoveTask = ({
 
     function removeTask(id: string) {
 
-        http
+        http()
             .removeTask(id)
             .then(() => {
 

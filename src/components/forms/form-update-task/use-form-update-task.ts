@@ -9,7 +9,7 @@ import { FormCreateTaskType as FormUpdateTaskType } from "@/@types/forms-type"
 import {
     FormCreateTaskSchema as FormUpdateTaskSchema
 } from "@/schemas/form-create-task-schema"
-import { useUser } from "@/providers/user-provider"
+import { useApplication } from "@/providers/user-provider"
 
 interface FormProps {
     task: Task
@@ -19,7 +19,7 @@ interface FormProps {
 export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
 
 
-    const { invalidateQuery } = useUser()
+    const { invalidateQuery } = useApplication()
 
     const { id, name, quantity, unit } = task
 
@@ -50,7 +50,7 @@ export function useFormUpdateTask({ setIsOpen, task }: FormProps) {
 
     function updateTask({ name, quantity, obs, unit }: FormUpdateTaskType) {
 
-        http
+        http()
             .updateTask({ id, name, quantity, unit, obs })
             .then(() => {
 
