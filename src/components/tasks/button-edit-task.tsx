@@ -12,6 +12,7 @@ import { Pen } from "lucide-react"
 import { ButtonTaskProps } from "@/@types"
 import { FormUpdateTask } from "@/components/forms/form-update-task"
 import { useState } from "react"
+import { cn } from "@/lib/utils"
 
 export const ButtonEditTask = ({ setIsVisible, item }: ButtonTaskProps) => {
 
@@ -36,7 +37,10 @@ export const ButtonEditTask = ({ setIsVisible, item }: ButtonTaskProps) => {
                     Editar
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className={cn(
+                "sm:max-w-[425px] rounded-lg",
+                "max-sm:w-10/12"
+            )}>
                 <DialogHeader>
                     <DialogTitle>Atualizar item</DialogTitle>
                     <DialogDescription>

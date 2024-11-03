@@ -5,14 +5,13 @@ import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
 import { Icon } from "./icon"
+import { cn } from "@/lib/utils"
 
 export const ButtonsLogin = () => {
 
     const { status } = useSession()
 
     const { push } = useRouter()
-
-    console.log(status)
 
     useEffect(() => {
 
@@ -21,7 +20,10 @@ export const ButtonsLogin = () => {
     }, [push, status])
 
     return (
-        <div className="w-full flex justify-around gap-2">
+        <div className={cn(
+            "w-full flex justify-around gap-2",
+            "max-sm:flex-col"
+        )}>
             <Button
                 onClick={() => signIn("google")}
                 className="w-full"

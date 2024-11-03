@@ -27,6 +27,7 @@ export const ScrollItemsTasks = () => {
                     ref={parent}
                     className={cn(
                         "grid grid-cols-2 gap-3",
+                        "max-sm:grid-cols-1",
                         items.length === 0 && "grid-cols-1"
                     )}
                 >

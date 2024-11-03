@@ -8,6 +8,7 @@ import { DialogCreateTask } from "@/components/dialog-create-task"
 import { Toaster } from "@/components/ui/sonner"
 import { ScrollItemsTasks } from "@/components/tasks/scroll-items-tasks"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
     title: "Oniguiri list | Home"
@@ -20,9 +21,10 @@ export default function Home() {
                 className="flex-1 flex items-center justify-center"
             >
                 <Card className="size-5/6">
-                    <CardHeader
-                        className="w-full flex-row justify-between items-center"
-                    >
+                    <CardHeader className={cn(
+                        "w-full flex-row justify-between items-center",
+                        "max-sm:flex-col"
+                    )}>
                         <div className="space-y-3">
                             <CardTitle className="text-4xl">
                                 Onigiri
@@ -37,7 +39,10 @@ export default function Home() {
                         <ScrollItemsTasks />
                     </div>
                     <CardFooter className="justify-end items-center pt-12">
-                        <Button className="w-1/3">
+                        <Button className={cn(
+                            "w-1/3",
+                            "max-sm:w-full"
+                        )}>
                             Finalizar compra
                         </Button>
                     </CardFooter>

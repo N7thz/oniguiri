@@ -13,6 +13,7 @@ import {
 import { Plus } from "lucide-react"
 import { FormCreateTask } from "./forms/form-create-task"
 import { useState } from "react"
+import { cn } from "@/lib/utils"
 
 export const DialogCreateTask = () => {
 
@@ -24,12 +25,15 @@ export const DialogCreateTask = () => {
             onOpenChange={setIsOpen}
         >
             <DialogTrigger asChild>
-                <Button>
+                <Button className="max-sm:w-full">
                     <Plus />
                     Adicionar item
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className={cn(
+                "sm:max-w-[425px] rounded-lg",
+                "max-sm:w-10/12"
+            )}>
                 <DialogHeader>
                     <DialogTitle>Criar item</DialogTitle>
                     <DialogDescription>
