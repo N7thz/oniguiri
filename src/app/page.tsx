@@ -1,17 +1,12 @@
-import type { Metadata } from "next"
 import { 
   CardHeader, CardTitle, CardFooter, CardDescription 
 } from "@/components/ui/card"
 import { Card } from "@/components/card-border-animated"
 import { ButtonsLogin } from "@/components/buttons-login"
 
-export const metadata: Metadata = {
-  title: "Oniguiri list | Login"
-}
-
 export default function Home() {
   return (
-    <div className="h-dvh flex items-center justify-center">
+    <div className="h-dvh w-full flex items-center justify-center">
       <Card>
         <CardHeader>
           <CardTitle className="text-4xl">

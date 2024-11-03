@@ -9,7 +9,10 @@ import { Icon } from "./icon"
 export const ButtonsLogin = () => {
 
     const { status } = useSession()
+
     const { push } = useRouter()
+
+    console.log(status)
 
     useEffect(() => {
 
@@ -18,9 +21,7 @@ export const ButtonsLogin = () => {
     }, [push, status])
 
     return (
-        <div
-            className="w-full flex justify-around gap-2"
-        >
+        <div className="w-full flex justify-around gap-2">
             <Button
                 onClick={() => signIn("google")}
                 className="w-full"

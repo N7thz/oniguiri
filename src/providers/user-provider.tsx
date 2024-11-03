@@ -1,5 +1,6 @@
 "use client"
 
+import Home from "@/app/page"
 import { useQueryClient } from "@tanstack/react-query"
 import { useSession } from "next-auth/react"
 import { createContext, ReactNode, useContext, useState } from "react"
@@ -20,6 +21,7 @@ const UserContext = createContext({} as UserContextProps)
 export function UserProvider({ children }: { children: ReactNode }) {
 
     const { data } = useSession()
+
     const queryClient = useQueryClient()
 
     function invalidateQuery() {
@@ -28,7 +30,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         })
     }
 
-    if (!data || !data.user) return
+    if (!data || !data.user) return <Home />
+
 
     const user = data.user as User
 
